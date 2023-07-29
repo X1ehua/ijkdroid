@@ -26,6 +26,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.hjq.permissions.OnPermissionCallback;
@@ -204,8 +205,7 @@ public class VideoActivity extends BaseActivity {
 
         // handle arguments
         mVideoPath = getIntent().getStringExtra("videoPath");
-//        mVideoCoverUrl = "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3120404212,3339906847&fm=27&gp=0.jpg";
-        mVideoCoverUrl = "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2973320425,1464020144&fm=27&gp=0.jpg";
+        //mVideoCoverUrl = "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2973320425,1464020144&fm=27&gp=0.jpg";
 
         Intent intent = getIntent();
         String intentAction = intent.getAction();
@@ -241,7 +241,6 @@ public class VideoActivity extends BaseActivity {
         initVideoListener();
         initFragment();
         initListener();
-//
         StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimary));
     }
 
@@ -255,7 +254,7 @@ public class VideoActivity extends BaseActivity {
                 break;
             case R.id.btn_rotation:
                 mPlayerController.toogleVideoRotation();
-//                mPlayerController.setPlayerRotation(90);
+                //mPlayerController.setPlayerRotation(90);
                 break;
             case R.id.btn_ratio:
                 mPlayerController.toggleAspectRatio();
@@ -273,7 +272,7 @@ public class VideoActivity extends BaseActivity {
                                     @Override
                                     public void removeSmallWindow(IMediaPlayer mediaPlayer) {
                                         WindowManagerUtil.removeSmallWindow(mContext);
-//                                        videoView.setMediaPlayer(mediaPlayer);
+                                        //videoView.setMediaPlayer(mediaPlayer);
                                         videoView.resetRenders();
                                     }
                                 });
@@ -281,7 +280,7 @@ public class VideoActivity extends BaseActivity {
 
                             @Override
                             public void onDenied(List<String> permissions, boolean never) {
-//                                Toast.makeText(mContext, "需要取得权限以使用悬浮窗", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(mContext, "需要取得权限以使用悬浮窗", Toast.LENGTH_SHORT).show();
                                 XXPermissions.startPermissionActivity(VideoActivity.this, permissions);
                             }
                         });
@@ -293,7 +292,7 @@ public class VideoActivity extends BaseActivity {
                     @Override
                     public void removeSmallApp(IMediaPlayer mediaPlayer) {
                         WindowManagerUtil.removeSmallApp(mActivity);
-//                        videoView.setMediaPlayer(mediaPlayer);
+                        //videoView.setMediaPlayer(mediaPlayer);
                         videoView.resetRenders();
                     }
                 });
@@ -308,24 +307,24 @@ public class VideoActivity extends BaseActivity {
                 appVideoReplay.setVisibility(View.GONE);
                 appVideoRetry.setVisibility(View.GONE);
                 hideVideoLoading();
-                if(videoView.getDuration() > 1) {//exoplayer如果是直播流返回1
+                if (videoView.getDuration() > 1) {//exoplayer如果是直播流返回1
                     seekbar.setEnabled(true);
-                }else {
+                } else {
                     seekbar.setEnabled(false);
                 }
                 playIcon.setEnabled(true);
-                if(!Utils.isWifiConnected(mActivity) && !mPlayerController.isLocalDataSource(mVideoUri) && !PlayerController.WIFI_TIP_DIALOG_SHOWED) {
-//                    mPlayerController.showWifiDialog();
-                }else {
+                if (!Utils.isWifiConnected(mActivity) && !mPlayerController.isLocalDataSource(mVideoUri) && !PlayerController.WIFI_TIP_DIALOG_SHOWED) {
+                    //mPlayerController.showWifiDialog();
+                } else {
                     updatePlayBtnBg(false);
                 }
 
                 videoView.startVideoInfo();
-                if(!videoView.hasVideoTrackInfo()) {
+                if (!videoView.hasVideoTrackInfo()) {
                     if (!TextUtils.isEmpty(mVideoCoverUrl)) {
-                        GlideUtil.showImg(mContext, mVideoCoverUrl, videoCover);
+                        //  GlideUtil.showImg(mContext, mVideoCoverUrl, videoCover);
                     }
-                }else {
+                } else {
                     videoCover.setImageDrawable(new ColorDrawable(0));
                 }
 
@@ -403,54 +402,53 @@ public class VideoActivity extends BaseActivity {
                     case IMediaPlayer.MEDIA_INFO_VIDEO_TRACK_LAGGING://视频日志跟踪
                         Log.d(TAG, "MEDIA_INFO_VIDEO_TRACK_LAGGING:");
                         break;
-//                    case IMediaPlayer.MEDIA_INFO_NETWORK_BANDWIDTH://网络带宽
-//                        Log.d(TAG, "MEDIA_INFO_NETWORK_BANDWIDTH: " + extra);
-//                        break;
-//                    case IMediaPlayer.MEDIA_INFO_BAD_INTERLEAVING://
-//                        Log.d(TAG, "MEDIA_INFO_BAD_INTERLEAVING:");
-//                        break;
                     case IMediaPlayer.MEDIA_INFO_NOT_SEEKABLE://不可设置播放位置，直播方面
                         Log.d(TAG, "MEDIA_INFO_NOT_SEEKABLE:");
                         break;
-//                    case IMediaPlayer.MEDIA_INFO_METADATA_UPDATE://视频数据更新
-//                        Log.d(TAG, "MEDIA_INFO_METADATA_UPDATE: " + extra);
-//                        break;
-//                    case IMediaPlayer.MEDIA_INFO_TIMED_TEXT_ERROR://
-//                        Log.d(TAG, "MEDIA_INFO_TIMED_TEXT_ERROR:");
-//                        break;
-//                    case IMediaPlayer.MEDIA_INFO_UNSUPPORTED_SUBTITLE://不支持字幕
-//                        Log.d(TAG, "MEDIA_INFO_UNSUPPORTED_SUBTITLE:");
-//                        break;
-//                    case IMediaPlayer.MEDIA_INFO_SUBTITLE_TIMED_OUT://字幕超时
-//                        Log.d(TAG, "MEDIA_INFO_SUBTITLE_TIMED_OUT:");
-//                        break;
-//                    case IMediaPlayer.MEDIA_INFO_VIDEO_ROTATION_CHANGED://
-//                        Log.d(TAG, "MEDIA_INFO_VIDEO_ROTATION_CHANGED:");
-//                        break;
-//                    case IMediaPlayer.MEDIA_INFO_MEDIA_ACCURATE_SEEK_COMPLETE://
-//                        Log.d(TAG, "MEDIA_INFO_MEDIA_ACCURATE_SEEK_COMPLETE:");
-//                        break;
-////                    case IMediaPlayer.MEDIA_ERROR_UNKNOWN://
-////                        Log.d(TAG, "MEDIA_ERROR_UNKNOWN:");
-////                        break;
-//                    case IMediaPlayer.MEDIA_INFO_UNKNOWN://未知信息
-//                        Log.d(TAG, "MEDIA_INFO_UNKNOWN or MEDIA_ERROR_UNKNOWN:");
-//                        break;
-//                    case IMediaPlayer.MEDIA_ERROR_SERVER_DIED://服务挂掉
-//                        Log.d(TAG, "MEDIA_ERROR_SERVER_DIED:");
-//                        break;
-//                    case IMediaPlayer.MEDIA_ERROR_NOT_VALID_FOR_PROGRESSIVE_PLAYBACK://数据错误没有有效的回收
-//                        Log.d(TAG, "MEDIA_ERROR_NOT_VALID_FOR_PROGRESSIVE_PLAYBACK:");
-//                        break;
-//                    case IMediaPlayer.MEDIA_ERROR_IO://IO 错误
-//                        Log.d(TAG, "MEDIA_ERROR_IO :");
-//                        break;
-//                    case IMediaPlayer.MEDIA_ERROR_UNSUPPORTED://数据不支持
-//                        Log.d(TAG, "MEDIA_ERROR_UNSUPPORTED :");
-//                        break;
-//                    case IMediaPlayer.MEDIA_ERROR_TIMED_OUT://数据超时
-//                        Log.d(TAG, "MEDIA_ERROR_TIMED_OUT :");
-//                        break;
+                    /*
+                    case IMediaPlayer.MEDIA_INFO_NETWORK_BANDWIDTH://网络带宽
+                        Log.d(TAG, "MEDIA_INFO_NETWORK_BANDWIDTH: " + extra);
+                        break;
+                    case IMediaPlayer.MEDIA_INFO_BAD_INTERLEAVING://
+                        Log.d(TAG, "MEDIA_INFO_BAD_INTERLEAVING:");
+                        break;
+                    case IMediaPlayer.MEDIA_INFO_METADATA_UPDATE://视频数据更新
+                        Log.d(TAG, "MEDIA_INFO_METADATA_UPDATE: " + extra);
+                        break;
+                    case IMediaPlayer.MEDIA_INFO_TIMED_TEXT_ERROR://
+                        Log.d(TAG, "MEDIA_INFO_TIMED_TEXT_ERROR:");
+                        break;
+                    case IMediaPlayer.MEDIA_INFO_UNSUPPORTED_SUBTITLE://不支持字幕
+                        Log.d(TAG, "MEDIA_INFO_UNSUPPORTED_SUBTITLE:");
+                        break;
+                    case IMediaPlayer.MEDIA_INFO_SUBTITLE_TIMED_OUT://字幕超时
+                        Log.d(TAG, "MEDIA_INFO_SUBTITLE_TIMED_OUT:");
+                        break;
+                    case IMediaPlayer.MEDIA_INFO_VIDEO_ROTATION_CHANGED://
+                        Log.d(TAG, "MEDIA_INFO_VIDEO_ROTATION_CHANGED:");
+                        break;
+                    case IMediaPlayer.MEDIA_INFO_MEDIA_ACCURATE_SEEK_COMPLETE://
+                        Log.d(TAG, "MEDIA_INFO_MEDIA_ACCURATE_SEEK_COMPLETE:");
+                        break;
+                    case IMediaPlayer.MEDIA_INFO_UNKNOWN://未知信息
+                        Log.d(TAG, "MEDIA_INFO_UNKNOWN or MEDIA_ERROR_UNKNOWN:");
+                        break;
+                    case IMediaPlayer.MEDIA_ERROR_SERVER_DIED://服务挂掉
+                        Log.d(TAG, "MEDIA_ERROR_SERVER_DIED:");
+                        break;
+                    case IMediaPlayer.MEDIA_ERROR_NOT_VALID_FOR_PROGRESSIVE_PLAYBACK://数据错误没有有效的回收
+                        Log.d(TAG, "MEDIA_ERROR_NOT_VALID_FOR_PROGRESSIVE_PLAYBACK:");
+                        break;
+                    case IMediaPlayer.MEDIA_ERROR_IO://IO 错误
+                        Log.d(TAG, "MEDIA_ERROR_IO :");
+                        break;
+                    case IMediaPlayer.MEDIA_ERROR_UNSUPPORTED://数据不支持
+                        Log.d(TAG, "MEDIA_ERROR_UNSUPPORTED :");
+                        break;
+                    case IMediaPlayer.MEDIA_ERROR_TIMED_OUT://数据超时
+                        Log.d(TAG, "MEDIA_ERROR_TIMED_OUT :");
+                        break;
+                    */
                 }
                 return true;
             }
@@ -458,10 +456,12 @@ public class VideoActivity extends BaseActivity {
     }
 
     private void initPlayer() {
-        //        ActionBar actionBar = getSupportActionBar();
-//        mMediaController = new AndroidMediaController(this, false);
-//        mMediaController.setSupportActionBar(actionBar);
-//        mVideoView.setMediaController(mMediaController);
+        /*
+        ActionBar actionBar = getSupportActionBar();
+        mMediaController = new AndroidMediaController(this, false);
+        mMediaController.setSupportActionBar(actionBar);
+        mVideoView.setMediaController(mMediaController);
+        */
         final Settings settings = new Settings(this);
         settings.setEnableSurfaceView(false);
         settings.setEnableTextureView(true);
@@ -483,14 +483,14 @@ public class VideoActivity extends BaseActivity {
                 .setNetWorkListener(new PlayerController.OnNetWorkListener() {
                     @Override
                     public void onChanged() {
-                        if(videoView.getCurrentState() == IjkVideoView.STATE_IDLE) {
+                        if (videoView.getCurrentState() == IjkVideoView.STATE_IDLE) {
                             appVideoReplay.setVisibility(View.VISIBLE);
                             appVideoRetry.setVisibility(View.GONE);
                             playIcon.setEnabled(false);
                             updatePlayBtnBgState(true);
-                        }else if(videoView.getCurrentState() == IjkVideoView.STATE_PAUSED) {
+                        } else if (videoView.getCurrentState() == IjkVideoView.STATE_PAUSED) {
                             updatePlayBtnBg(false);
-                        }else {
+                        } else {
                             updatePlayBtnBg(false);
                         }
                     }
@@ -499,10 +499,10 @@ public class VideoActivity extends BaseActivity {
                 .setOnConfigurationChangedListener(new PlayerController.OnConfigurationChangedListener() {
                     @Override
                     public void onChanged(int requestedOrientation) {
-                        if(requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT || requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+                        if (requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT || requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
                             Utils.showSystemUI(mContext);
                             Utils.showStatusBar(mContext);
-                        }else if(requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE || requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE){
+                        } else if (requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE || requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
                             Utils.hideSystemUI(mContext);
                             Utils.hideStatusBar(mContext);
                         }
@@ -593,28 +593,31 @@ public class VideoActivity extends BaseActivity {
                     }
                 });
 
-        // prefer mVideoPath
-//        Settings settings = new Settings(this);
-//        settings.setPlayer(Settings.PV_PLAYER__IjkMediaPlayer);
-//        if (mVideoPath != null)
-//            videoView.setVideoPath(mVideoPath);
-//        else if (mVideoUri != null)
-//            videoView.setVideoURI(mVideoUri);
-//        else {
-//            Log.e(TAG, "Null Data Source\n");
-//            finish();
-//            return;
-//        }
-//        videoView.start();
+        //prefer mVideoPath
+        /*
+        Settings settings = new Settings(this);
+        settings.setPlayer(Settings.PV_PLAYER__IjkMediaPlayer);
+        if (mVideoPath != null)
+            videoView.setVideoPath(mVideoPath);
+        else if (mVideoUri != null)
+            videoView.setVideoURI(mVideoUri);
+        else {
+            Log.e(TAG, "Null Data Source\n");
+            finish();
+            return;
+        }
+        videoView.start();
+        */
+
         onDestroyVideo();
         if (mVideoPath != null) {
             showVideoLoading();
             videoView.setVideoPath(mVideoPath);
             //需要在videoView.setRender()方法之后调用
             videoView.setVideoRadius(50);
-            if(!Utils.isWifiConnected(mActivity) && !mPlayerController.isLocalDataSource(mVideoUri) && !PlayerController.WIFI_TIP_DIALOG_SHOWED) {
+            if (!Utils.isWifiConnected(mActivity) && !mPlayerController.isLocalDataSource(mVideoUri) && !PlayerController.WIFI_TIP_DIALOG_SHOWED) {
                 mPlayerController.showWifiDialog();
-            }else {
+            } else {
                 videoView.start();
             }
         }
@@ -647,7 +650,7 @@ public class VideoActivity extends BaseActivity {
             public void onClick(View view) {
                 if (videoView.getCurrentState() == IjkVideoView.STATE_PLAYING) {
                     updatePlayBtnBg(true);
-                } else if(videoView.getCurrentState() == IjkVideoView.STATE_PAUSED) {
+                } else if (videoView.getCurrentState() == IjkVideoView.STATE_PAUSED) {
                     updatePlayBtnBg(false);
                 } else {
                     videoView.clickStart();
@@ -691,12 +694,12 @@ public class VideoActivity extends BaseActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 if (pos == 0) {
                     return;
-                }else if(pos == 1) {
+                } else if (pos == 1) {
                     mPlayerController
                             .setGestureEnabled(false)
                             .setAutoControlPanel(false);
                     videoView.setGesture(true, true, true);
-                }else if(pos == 2) {
+                } else if (pos == 2) {
                     mPlayerController
                             .setGestureEnabled(true)
                             .setAutoControlPanel(true);
@@ -790,7 +793,7 @@ public class VideoActivity extends BaseActivity {
                             }
 
                             tto = ttff != null ? ttff.parseFile("test", is) : null;
-//                        IOClass.writeFileTxt("test.srt", tto.toSRT());
+                            //IOClass.writeFileTxt("test.srt", tto.toSRT());
 
                             ThreadUtil.runOnUiThread(new Runnable() {
                                 @Override
@@ -835,7 +838,7 @@ public class VideoActivity extends BaseActivity {
     }
 
     private void initVideoControl() {
-//        playIcon.setEnabled(false);
+        //playIcon.setEnabled(false);
         seekbar.setEnabled(false);
         seekbar.setProgress(0);
         seekbar.setSecondaryProgress(0);
@@ -901,6 +904,7 @@ public class VideoActivity extends BaseActivity {
 
         }
     }
+
     /**
      * 更新播放按钮的背景图片，正在播放
      */
@@ -951,9 +955,9 @@ public class VideoActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         if (!videoView.isBackgroundPlayEnabled()) {
-            if(!Utils.isWifiConnected(mActivity) && !mPlayerController.isLocalDataSource(mVideoUri) && !PlayerController.WIFI_TIP_DIALOG_SHOWED) {
-//                    mPlayerController.showWifiDialog();
-            }else {
+            if (!Utils.isWifiConnected(mActivity) && !mPlayerController.isLocalDataSource(mVideoUri) && !PlayerController.WIFI_TIP_DIALOG_SHOWED) {
+                //mPlayerController.showWifiDialog();
+            } else {
                 updatePlayBtnBg(false);
             }
         }
@@ -964,9 +968,9 @@ public class VideoActivity extends BaseActivity {
         super.onStop();
 
         if (mBackPressed || !videoView.isBackgroundPlayEnabled()) {
-//            mVideoView.stopPlayback();
-//            mVideoView.release(true);
-//            mVideoView.stopBackgroundPlay();
+            //mVideoView.stopPlayback();
+            //mVideoView.release(true);
+            //mVideoView.stopBackgroundPlay();
             updatePlayBtnBg(true);
         } else {
             videoView.enterBackground();
@@ -1000,7 +1004,7 @@ public class VideoActivity extends BaseActivity {
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         if (mPlayerController != null) {
             mPlayerController.onConfigurationChanged();

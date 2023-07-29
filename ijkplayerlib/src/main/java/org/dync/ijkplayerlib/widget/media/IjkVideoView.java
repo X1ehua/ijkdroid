@@ -675,7 +675,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                 if (mSeekWhenPrepared != 0) {
                     seekTo(mSeekWhenPrepared);
                 }
-//                start();
+                //start();
             }
         }
 

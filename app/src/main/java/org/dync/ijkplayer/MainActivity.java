@@ -2,6 +2,8 @@ package org.dync.ijkplayer;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -25,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
     Button btnSetting;
     @BindView(R.id.btn_ijkPlayer)
     Button btnIjkPlayer;
-    @BindView(R.id.btn_exoPlayer)
-    Button btnExoPlayer;
+    //  @BindView(R.id.btn_exoPlayer)
+    //  Button btnExoPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +36,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         mContext = this;
+
+        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_PORTRAIT) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+
+        /*
         NetworkChangedReceiver register = NetWorkControl.register(TAG, this);
-//        register.setNetWorkChangeListener(new NetWorkControl.NetWorkChangeListener() {
-//            @Override
-//            public boolean isConnected(boolean wifiConnected, boolean wifiAvailable, boolean mobileConnected, boolean mobileAvailable) {
-//
-//                return false;
-//            }
-//        });
+        register.setNetWorkChangeListener(new NetWorkControl.NetWorkChangeListener() {
+            @Override
+            public boolean isConnected(boolean wifiConnected, boolean wifiAvailable, boolean mobileConnected, boolean mobileAvailable) {
+
+                return false;
+            }
+        });
+        */
     }
 
     @Override
@@ -58,20 +67,20 @@ public class MainActivity extends AppCompatActivity {
         NetWorkControl.unRegister(TAG, this);
     }
 
-    @OnClick({R.id.btn_setting, R.id.btn_ijkPlayer, R.id.btn_exoPlayer})
+    //  @OnClick({R.id.btn_setting, R.id.btn_ijkPlayer, R.id.btn_exoPlayer})
+    @OnClick({R.id.btn_setting, R.id.btn_ijkPlayer})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_setting:
                 startActivity(new Intent(mContext, SettingActivity.class));
                 break;
             case R.id.btn_ijkPlayer:
-                String videoPath = "http://videos.jzvd.org/v/ldj/01-ldj.mp4";
-//                String videoPath = "http://videos.jzvd.org/v/饺子主动.mp4";
+                String videoPath = "http://mozicode.com/20230729-133932.mp4";
                 VideoActivity.intentTo(mContext, videoPath, "测试");
                 break;
-            case R.id.btn_exoPlayer:
-                startActivity(new Intent(mContext, SimpleActivity.class));
-                break;
+            //case R.id.btn_exoPlayer:
+            //    startActivity(new Intent(mContext, SimpleActivity.class));
+            //    break;
         }
     }
 }
