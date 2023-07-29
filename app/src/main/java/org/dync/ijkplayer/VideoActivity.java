@@ -1,5 +1,6 @@
 package org.dync.ijkplayer;
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -195,6 +196,7 @@ public class VideoActivity extends BaseActivity {
         context.startActivity(newIntent(context, videoPath, videoTitle));
     }
 
+    @SuppressLint({"ObsoleteSdkInt", "SourceLockedOrientationActivity"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -205,11 +207,12 @@ public class VideoActivity extends BaseActivity {
 
         // handle arguments
         mVideoPath = getIntent().getStringExtra("videoPath");
-        //mVideoCoverUrl = "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2973320425,1464020144&fm=27&gp=0.jpg";
+        //mVideoCoverUrl = "https://s.c.com/70c0.jpg";
 
         Intent intent = getIntent();
         String intentAction = intent.getAction();
         if (!TextUtils.isEmpty(intentAction)) {
+            assert intentAction != null;
             if (intentAction.equals(Intent.ACTION_VIEW)) {
                 mVideoPath = intent.getDataString();
             } else if (intentAction.equals(Intent.ACTION_SEND)) {
@@ -217,18 +220,19 @@ public class VideoActivity extends BaseActivity {
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
                     String scheme = mVideoUri.getScheme();
                     if (TextUtils.isEmpty(scheme)) {
-                        Log.e(TAG, "Null unknown scheme\n");
+                        Log.e(TAG, "Null unknown scheme");
                         finish();
                         return;
                     }
+                    assert scheme != null;
                     if (scheme.equals(ContentResolver.SCHEME_ANDROID_RESOURCE)) {
                         mVideoPath = mVideoUri.getPath();
                     } else if (scheme.equals(ContentResolver.SCHEME_CONTENT)) {
-                        Log.e(TAG, "Can not resolve content below Android-ICS\n");
+                        Log.e(TAG, "Can not resolve content below Android-ICS");
                         finish();
                         return;
                     } else {
-                        Log.e(TAG, "Unknown scheme " + scheme + "\n");
+                        Log.e(TAG, "Unknown scheme " + scheme);
                         finish();
                         return;
                     }
@@ -242,8 +246,13 @@ public class VideoActivity extends BaseActivity {
         initFragment();
         initListener();
         StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimary));
+
+        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_PORTRAIT) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
     }
 
+    @SuppressLint("NonConstantResourceId")
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_ijk_player:
@@ -307,13 +316,16 @@ public class VideoActivity extends BaseActivity {
                 appVideoReplay.setVisibility(View.GONE);
                 appVideoRetry.setVisibility(View.GONE);
                 hideVideoLoading();
-                if (videoView.getDuration() > 1) {//exoplayer如果是直播流返回1
+                if (videoView.getDuration() > 1) { // exoPlayer 如果是直播流返回1
                     seekbar.setEnabled(true);
                 } else {
                     seekbar.setEnabled(false);
                 }
                 playIcon.setEnabled(true);
-                if (!Utils.isWifiConnected(mActivity) && !mPlayerController.isLocalDataSource(mVideoUri) && !PlayerController.WIFI_TIP_DIALOG_SHOWED) {
+                if (!Utils.isWifiConnected(mActivity)
+                        && !mPlayerController.isLocalDataSource(mVideoUri)
+                        && !PlayerController.WIFI_TIP_DIALOG_SHOWED)
+                {
                     //mPlayerController.showWifiDialog();
                 } else {
                     updatePlayBtnBg(false);
@@ -322,7 +334,7 @@ public class VideoActivity extends BaseActivity {
                 videoView.startVideoInfo();
                 if (!videoView.hasVideoTrackInfo()) {
                     if (!TextUtils.isEmpty(mVideoCoverUrl)) {
-                        //  GlideUtil.showImg(mContext, mVideoCoverUrl, videoCover);
+                        //GlideUtil.showImg(mContext, mVideoCoverUrl, videoCover);
                     }
                 } else {
                     videoCover.setImageDrawable(new ColorDrawable(0));
@@ -330,7 +342,7 @@ public class VideoActivity extends BaseActivity {
 
                 mPlayerController
                         .setGestureEnabled(true)
-                        .setAutoControlPanel(true);//视频加载后才自动隐藏操作面板
+                        .setAutoControlPanel(true); // 视频加载后才自动隐藏操作面板
                 mPlayerController.setSpeed(1.0f);
             }
         });
@@ -471,13 +483,13 @@ public class VideoActivity extends BaseActivity {
         appVideoRetry.setVisibility(View.GONE);
 
         mPlayerController = new PlayerController(this, videoView)
-                .setVideoParentLayout(findViewById(R.id.rl_video_view_layout))//建议第一个调用
+                .setVideoParentLayout(findViewById(R.id.rl_video_view_layout)) // 建议第一个调用
                 .setVideoController((SeekBar) findViewById(R.id.seekbar))
                 .setVolumeController()
                 .setBrightnessController()
                 .setVideoParentRatio(IRenderView.AR_16_9_FIT_PARENT)
                 .setVideoRatio(IRenderView.AR_16_9_FIT_PARENT)
-                .setPortrait(true)
+                .setPortrait(true) // TODO: landscape ?
                 .setKeepScreenOn(true)
                 .setNetWorkTypeTie(true)
                 .setNetWorkListener(new PlayerController.OnNetWorkListener() {
@@ -495,7 +507,7 @@ public class VideoActivity extends BaseActivity {
                         }
                     }
                 })
-                .setAutoControlListener(llBottom)//触摸以下控件可以取消自动隐藏布局的线程
+                .setAutoControlListener(llBottom) // 触摸以下控件可以取消自动隐藏布局的线程
                 .setOnConfigurationChangedListener(new PlayerController.OnConfigurationChangedListener() {
                     @Override
                     public void onChanged(int requestedOrientation) {
@@ -615,7 +627,10 @@ public class VideoActivity extends BaseActivity {
             videoView.setVideoPath(mVideoPath);
             //需要在videoView.setRender()方法之后调用
             videoView.setVideoRadius(50);
-            if (!Utils.isWifiConnected(mActivity) && !mPlayerController.isLocalDataSource(mVideoUri) && !PlayerController.WIFI_TIP_DIALOG_SHOWED) {
+            if (!Utils.isWifiConnected(mActivity)
+                    && !mPlayerController.isLocalDataSource(mVideoUri)
+                    && !PlayerController.WIFI_TIP_DIALOG_SHOWED)
+            {
                 mPlayerController.showWifiDialog();
             } else {
                 videoView.start();

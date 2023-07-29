@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-//    buildToolsVersion rootProject.ext.buildToolsVersion
+//  buildToolsVersion rootProject.ext.buildToolsVersion
 
     lintOptions {
         abortOnError false
@@ -32,14 +32,14 @@ dependencies {
     api 'com.google.android.exoplayer:extension-okhttp:' + rootProject.exoplayer
     api 'com.google.android.exoplayer:extension-cronet:' + rootProject.exoplayer
     api 'tv.danmaku.ijk.media:ijkplayer-java:' + rootProject.ijkplayer
-//    api (project(':ffmpeg'))
+//  api (project(':ffmpeg'))
 }
 
-//解决 gradlew 构建错误: 编码 GBK的不可映射字符
+// 解决 gradlew 构建错误: 编码 GBK的不可映射字符
 tasks.withType(Javadoc) {
-    //    options.encoding = "UTF-8"
-        options.addStringOption('Xdoclint:none', '-quiet')
-        options.addStringOption('encoding', 'UTF-8')
+//  options.encoding = "UTF-8"
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addStringOption('encoding', 'UTF-8')
 }
 
 ext {
@@ -47,4 +47,5 @@ ext {
     PUBLISH_ARTIFACT_ID = "ijkplayer-exo2"
     PUBLISH_VERSION = android.defaultConfig.versionName
 }
+
 apply from: "${rootProject.projectDir}/mavencentral.gradle"

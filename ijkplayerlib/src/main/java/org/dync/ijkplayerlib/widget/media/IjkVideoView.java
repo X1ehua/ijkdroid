@@ -185,6 +185,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                 FrameLayout.LayoutParams.WRAP_CONTENT,
                 Gravity.BOTTOM);
         addView(subtitleDisplay, layoutParams_txt);
+        setVideoRadius(0.0f);
     }
 
     public void setRenderView(IRenderView renderView) {
@@ -1090,7 +1091,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                     //设置是否开启环路过滤: 0开启，画面质量高，解码开销大，48关闭，画面质量差点，解码开销小
                     ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_CODEC, "skip_loop_filter", 48);
                     //最大缓冲大小,单位kb
-//                    ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "max-buffer-size", 1024 * 1024);
+                    //ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "max-buffer-size", 1024 * 1024);
                     //某些视频在SeekTo的时候，会跳回到拖动前的位置，这是因为视频的关键帧的问题，通俗一点就是FFMPEG不兼容，视频压缩过于厉害，seek只支持关键帧，出现这个情况就是原始的视频文件中i 帧比较少
                     ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "enable-accurate-seek", 1);
                     //是否重连
@@ -1104,7 +1105,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                     //1变速变调状态 0变速不变调状态
                     ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "soundtouch", 1);
 
-//                    ijkMediaPlayer.setOnNativeInvokeListener(mNativeInvokeListener);
+                    //ijkMediaPlayer.setOnNativeInvokeListener(mNativeInvokeListener);
                 }
                 mediaPlayer = ijkMediaPlayer;
             }
@@ -1226,7 +1227,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
         return MediaPlayerCompat.getSelectedTrack(mMediaPlayer, trackType);
     }
 
-///////////////////////////////额外增加的方法//////////////////////////////////
+    ///////////////////////////////额外增加的方法//////////////////////////////////
 
     public Uri getUri() {
         return mUri;
@@ -1314,15 +1315,17 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
         }
     }
 
-//    public float getSpeed() {
-//        if (mMediaPlayer instanceof IjkMediaPlayer) {
-//            ((IjkMediaPlayer) mMediaPlayer).getSpeed(0);
-//        } else if (mMediaPlayer instanceof IjkExoMediaPlayer) {
-//            ((IjkExoMediaPlayer) mMediaPlayer).getSpeed();
-//        }
-//        Log.d(TAG, "not support setSpeed! ");
-//        return 0;
-//    }
+    /*
+    public float getSpeed() {
+        if (mMediaPlayer instanceof IjkMediaPlayer) {
+            ((IjkMediaPlayer) mMediaPlayer).getSpeed(0);
+        } else if (mMediaPlayer instanceof IjkExoMediaPlayer) {
+            ((IjkExoMediaPlayer) mMediaPlayer).getSpeed();
+        }
+        Log.d(TAG, "not support setSpeed! ");
+        return 0;
+    }
+    */
 
     /**
      * 切换播放器，Settings.PV_PLAYER__IjkMediaPlayer、
@@ -1353,32 +1356,34 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
 
     /**
      * 是否开启缩放、旋转和平移
+     *
      * @param enabledRotation
      * @param enabledTranslation
      */
     public void setGesture(boolean enabledScale, boolean enabledRotation, boolean enabledTranslation) {
-        if(mRenderView instanceof ScaleTextureView) {
-            ((ScaleTextureView)mRenderView).setEnabledScale(enabledScale);
-            ((ScaleTextureView)mRenderView).setEnabledRotation(enabledRotation);
-            ((ScaleTextureView)mRenderView).setEnabledTranslation(enabledTranslation);
+        if (mRenderView instanceof ScaleTextureView) {
+            ((ScaleTextureView) mRenderView).setEnabledScale(enabledScale);
+            ((ScaleTextureView) mRenderView).setEnabledRotation(enabledRotation);
+            ((ScaleTextureView) mRenderView).setEnabledTranslation(enabledTranslation);
         }
     }
 
     public void resetGesture() {
-        if(mRenderView instanceof ScaleTextureView) {
-            ((ScaleTextureView)mRenderView).reset(true);
+        if (mRenderView instanceof ScaleTextureView) {
+            ((ScaleTextureView) mRenderView).reset(true);
         }
     }
 
     /**
      * 给任何View增加圆角处理
+     *
      * @param radius
      */
     public void setVideoRadius(float radius) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            setOutlineProvider(new TextureVideoViewOutlineProvider(radius));
-//            setClipToOutline(true);
-            if(mRenderView instanceof ScaleTextureView) {
+            //setOutlineProvider(new TextureVideoViewOutlineProvider(radius));
+            //setClipToOutline(true);
+            if (mRenderView instanceof ScaleTextureView) {
                 ((ScaleTextureView) mRenderView).setVideoRadius(radius);
             }
         }

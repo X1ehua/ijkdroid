@@ -1,5 +1,6 @@
 package org.dync.ijkplayer;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -19,7 +20,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
-
     private Context mContext;
     private final String TAG = "MainActivity";
 
@@ -27,9 +27,10 @@ public class MainActivity extends AppCompatActivity {
     Button btnSetting;
     @BindView(R.id.btn_ijkPlayer)
     Button btnIjkPlayer;
-    //  @BindView(R.id.btn_exoPlayer)
-    //  Button btnExoPlayer;
+//  @BindView(R.id.btn_exoPlayer)
+//  Button btnExoPlayer;
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == event.KEYCODE_HOME) {
+        if (keyCode == KeyEvent.KEYCODE_HOME) {
             return true;
         }
         return super.onKeyDown(keyCode, event);
@@ -67,7 +68,8 @@ public class MainActivity extends AppCompatActivity {
         NetWorkControl.unRegister(TAG, this);
     }
 
-    //  @OnClick({R.id.btn_setting, R.id.btn_ijkPlayer, R.id.btn_exoPlayer})
+//  @OnClick({R.id.btn_setting, R.id.btn_ijkPlayer, R.id.btn_exoPlayer})
+    @SuppressLint("NonConstantResourceId")
     @OnClick({R.id.btn_setting, R.id.btn_ijkPlayer})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -79,8 +81,8 @@ public class MainActivity extends AppCompatActivity {
                 VideoActivity.intentTo(mContext, videoPath, "测试");
                 break;
             //case R.id.btn_exoPlayer:
-            //    startActivity(new Intent(mContext, SimpleActivity.class));
-            //    break;
+            //  startActivity(new Intent(mContext, SimpleActivity.class));
+            //  break;
         }
     }
 }
