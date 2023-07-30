@@ -2,6 +2,7 @@
 
 buildscript {
     repositories {
+        mavenLocal()
         mavenCentral()
         google()
     }
@@ -15,6 +16,7 @@ buildscript {
 
 allprojects {
     repositories {
+        mavenLocal()
         mavenCentral()
         google()
         maven { url "https://maven.aliyun.com/repository/public" } //jcenter & central
@@ -28,13 +30,13 @@ allprojects {
 
 ext {
     compileSdkVersion = 28
-//    buildToolsVersion = "27.0.3"
+//  buildToolsVersion = "27.0.3"
 
     targetSdkVersion = 28
     supportLibraryVersion = "1.1.0"
 
     versionCode = 1
     versionName = "1.0"
-    ijkplayer = "0.8.8"
+    ijkplayer = "0.8.8.2" // mavenLocal
     exoplayer = "2.14.1"
 }

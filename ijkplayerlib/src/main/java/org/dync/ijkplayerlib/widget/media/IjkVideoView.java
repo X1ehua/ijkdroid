@@ -58,8 +58,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import tv.danmaku.ijk.media.exo.IjkExoMediaPlayer;
-import tv.danmaku.ijk.media.player.AndroidMediaPlayer;
+//import tv.danmaku.ijk.media.exo.IjkExoMediaPlayer;
+//import tv.danmaku.ijk.media.player.AndroidMediaPlayer;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkTimedText;
@@ -1017,15 +1017,17 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     public static String getPlayerText(Context context, int player) {
         String text;
         switch (player) {
-            case Settings.PV_PLAYER__AndroidMediaPlayer:
-                text = context.getString(R.string.VideoView_player_AndroidMediaPlayer);
-                break;
             case Settings.PV_PLAYER__IjkMediaPlayer:
                 text = context.getString(R.string.VideoView_player_IjkMediaPlayer);
+                break;
+            /*
+            case Settings.PV_PLAYER__AndroidMediaPlayer:
+                text = context.getString(R.string.VideoView_player_AndroidMediaPlayer);
                 break;
             case Settings.PV_PLAYER__IjkExoMediaPlayer:
                 text = context.getString(R.string.VideoView_player_IjkExoMediaPlayer);
                 break;
+            */
             default:
                 text = context.getString(R.string.N_A);
                 break;
@@ -1037,6 +1039,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
         IMediaPlayer mediaPlayer = null;
 
         switch (playerType) {
+            /*
             case Settings.PV_PLAYER__IjkExoMediaPlayer: {
                 IjkExoMediaPlayer IjkExoMediaPlayer = new IjkExoMediaPlayer(mAppContext);
                 mediaPlayer = IjkExoMediaPlayer;
@@ -1047,6 +1050,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                 mediaPlayer = androidMediaPlayer;
             }
             break;
+            */
             case Settings.PV_PLAYER__IjkMediaPlayer:
             default: {
                 IjkMediaPlayer ijkMediaPlayer = null;
@@ -1302,15 +1306,20 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     public void setSpeed(@FloatRange(from = 0.2, to = 2.0) float speed) {
         if (mMediaPlayer instanceof IjkMediaPlayer) {
             ((IjkMediaPlayer) mMediaPlayer).setSpeed(speed);
-        } else if (mMediaPlayer instanceof IjkExoMediaPlayer) {
+        }
+        /*
+        else if (mMediaPlayer instanceof IjkExoMediaPlayer) {
             ((IjkExoMediaPlayer) mMediaPlayer).setSpeed(speed, 1);
-        } else if (mMediaPlayer instanceof MediaPlayer) {
+        }
+        else if (mMediaPlayer instanceof MediaPlayer) {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                 PlaybackParams pp = ((MediaPlayer) mMediaPlayer).getPlaybackParams();
                 pp.setSpeed(speed);
                 ((MediaPlayer) mMediaPlayer).setPlaybackParams(pp);
             }
-        } else {
+        }
+        */
+        else {
             Log.d(TAG, "not support setSpeed! ");
         }
     }
@@ -1399,7 +1408,9 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
             IjkMediaPlayer mMediaPlayer = (IjkMediaPlayer) this.mMediaPlayer;
             int videoTrack = mMediaPlayer.getSelectedTrack(ITrackInfo.MEDIA_TRACK_TYPE_VIDEO);
             return videoTrack != -1;
-        } else if (mMediaPlayer instanceof IjkExoMediaPlayer) {
+        }
+        /*
+        else if (mMediaPlayer instanceof IjkExoMediaPlayer) {
             IjkExoMediaPlayer mMediaPlayer = (IjkExoMediaPlayer) this.mMediaPlayer;
             ArrayList<Integer> trackGroup = mMediaPlayer.getTrackGroup();
             return trackGroup.contains(C.TRACK_TYPE_VIDEO);
@@ -1414,7 +1425,9 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                 }
             }
             return hasVideo;
-        } else {
+        }
+        */
+        else {
             return true;
         }
     }
@@ -1456,7 +1469,9 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                         break;
                     if (mMediaPlayer instanceof IjkMediaPlayer) {
                         mp = mMediaPlayer;
-                    } else if (mMediaPlayer instanceof MediaPlayerProxy) {
+                    }
+                    /*
+                    else if (mMediaPlayer instanceof MediaPlayerProxy) {
                         MediaPlayerProxy proxy = (MediaPlayerProxy) mMediaPlayer;
                         IMediaPlayer internal = proxy.getInternalMediaPlayer();
                         if (internal != null && internal instanceof IjkMediaPlayer)
@@ -1464,6 +1479,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                     } else if (mMediaPlayer instanceof IjkExoMediaPlayer) {
                         mp = mMediaPlayer;
                     }
+                    */
 
                     if (videoInfoListener != null) {
                         videoInfoListener.updateVideoInfo(mp);
