@@ -94,7 +94,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     // All the stuff we need for playing and showing a video
     private IRenderView.ISurfaceHolder mSurfaceHolder = null;
     private IMediaPlayer mMediaPlayer = null;
-    // private int         mAudioSession;
+    //  private int          mAudioSession;
     private int mVideoWidth;
     private int mVideoHeight;
     private int mSurfaceWidth;
@@ -180,12 +180,11 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
         subtitleDisplay = new TextView(context);
         subtitleDisplay.setTextSize(24);
         subtitleDisplay.setGravity(Gravity.CENTER);
-        FrameLayout.LayoutParams layoutParams_txt = new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.WRAP_CONTENT,
-                Gravity.BOTTOM);
+        FrameLayout.LayoutParams layoutParams_txt =
+                new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+                                             FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM);
         addView(subtitleDisplay, layoutParams_txt);
-        setVideoRadius(0.0f);
+        setVideoRadius(0.0f); // no impact
     }
 
     public void setRenderView(IRenderView renderView) {
@@ -1073,7 +1072,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                     } else {
                         ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "mediacodec", 0);
                     }
-                    //使用opensles把文件从java层拷贝到native层
+                    //使用 OpenSLES 把文件从 java 层拷贝到 native 层
                     if (mSettings.getUsingOpenSLES()) {
                         ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "opensles", 1);
                     } else {
