@@ -106,6 +106,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
+                    <!--
                     <RadioButton
                         android:id="@+id/AutoSelect"
                         android:layout_width="wrap_content"
@@ -123,6 +124,15 @@
                         android:textSize="16sp" />
 
                     <RadioButton
+                        android:id="@+id/IjkExoMediaPlayer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="IjkExoMediaPlayer"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+                    -->
+
+                    <RadioButton
                         android:id="@+id/IjkMediaPlayer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -130,13 +140,6 @@
                         android:textColor="#000000"
                         android:textSize="16sp" />
 
-                    <RadioButton
-                        android:id="@+id/IjkExoMediaPlayer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="IjkExoMediaPlayer"
-                        android:textColor="#000000"
-                        android:textSize="16sp" />
 
                 </RadioGroup>
 

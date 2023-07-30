@@ -46,35 +46,39 @@ public class SettingActivity extends AppCompatActivity {
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.rg_play_type);
         int video_mode = settings.getPlayer();
         switch (video_mode) {
+            case Settings.PV_PLAYER__IjkMediaPlayer:
+                radioGroup.check(R.id.IjkMediaPlayer);
+                break;
+            /*
             case Settings.PV_PLAYER__IjkExoMediaPlayer:
                 radioGroup.check(R.id.IjkExoMediaPlayer);
                 break;
             case Settings.PV_PLAYER__AndroidMediaPlayer:
                 radioGroup.check(R.id.AndroidMediaPlayer);
                 break;
-            case Settings.PV_PLAYER__IjkMediaPlayer:
-                radioGroup.check(R.id.IjkMediaPlayer);
-                break;
             default:
                 radioGroup.check(R.id.AutoSelect);
                 break;
+            */
         }
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 switch (checkedId) {
+                    case R.id.IjkMediaPlayer:
+                        settings.setPlayer(Settings.PV_PLAYER__IjkMediaPlayer);
+                        break;
+                    /*
                     case R.id.AutoSelect:
                         settings.setPlayer(Settings.PV_PLAYER__Auto);
                         break;
                     case R.id.AndroidMediaPlayer:
                         settings.setPlayer(Settings.PV_PLAYER__AndroidMediaPlayer);
                         break;
-                    case R.id.IjkMediaPlayer:
-                        settings.setPlayer(Settings.PV_PLAYER__IjkMediaPlayer);
-                        break;
                     case R.id.IjkExoMediaPlayer:
                         settings.setPlayer(Settings.PV_PLAYER__IjkExoMediaPlayer);
                         break;
+                    */
                 }
             }
         });

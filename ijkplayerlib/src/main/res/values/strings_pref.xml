@@ -14,10 +14,12 @@
     <string name="pref_key_player">pref.player</string>
     <string name="pref_title_player">Choose Player</string>
     <string-array name="pref_entries_player">
+        <!--
         <item>Auto Select</item>
         <item>AndroidMediaPlayer</item>
-        <item>IjkMediaPlayer</item>
         <item>IjkExoMediaPlayer</item>
+        -->
+        <item>IjkMediaPlayer</item>
     </string-array>
     <string-array name="pref_entry_values_player">
         <item>0</item>
@@ -26,13 +28,14 @@
         <item>3</item>
     </string-array>
     <string-array name="pref_entry_summaries_player">
+        <!--
         <item>Auto Select</item>
         <item>AndroidMediaPlayer</item>
-        <item>IjkMediaPlayer</item>
         <item>IjkExoMediaPlayer</item>
+        -->
+        <item>IjkMediaPlayer</item>
     </string-array>
 
-    <!-- -->
     <string name="pref_title_ijkplayer_video">Video: ijkplayer</string>
 
     <string name="pref_key_using_media_codec">pref.using_media_codec</string>

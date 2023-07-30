@@ -145,12 +145,12 @@ public class PlayerController {
             if (ConnectivityManager.CONNECTIVITY_ACTION.equals(intent.getAction())) {
                 boolean isWifi = isWifiConnected(context);
                 if (!isWifi && !WIFI_TIP_DIALOG_SHOWED && videoView.isPlaying()) {
-                    if(playStateListener != null) {
+                    if (playStateListener != null) {
                         playStateListener.playState(IjkVideoView.STATE_PLAYING);
                     }
-                    if(!Utils.isWifiConnected(mActivity) && !WIFI_TIP_DIALOG_SHOWED) {
+                    if (!Utils.isWifiConnected(mActivity) && !WIFI_TIP_DIALOG_SHOWED) {
                         videoView.clickStart();
-                        if(onNetWorkListener != null) {
+                        if (onNetWorkListener != null) {
                             onNetWorkListener.onChanged();
                         }
                         showWifiDialog();
@@ -177,7 +177,7 @@ public class PlayerController {
                 } else {
                     videoView.clickStart();
                 }
-                if(onNetWorkListener != null) {
+                if (onNetWorkListener != null) {
                     onNetWorkListener.onChanged();
                 }
             }
@@ -187,7 +187,7 @@ public class PlayerController {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 videoView.release(true);
-                if(onNetWorkListener != null) {
+                if (onNetWorkListener != null) {
                     onNetWorkListener.onChanged();
                 }
             }
@@ -197,7 +197,7 @@ public class PlayerController {
             public void onCancel(DialogInterface dialog) {
                 dialog.dismiss();
                 videoView.release(true);
-                if(onNetWorkListener != null) {
+                if (onNetWorkListener != null) {
                     onNetWorkListener.onChanged();
                 }
             }
@@ -228,7 +228,7 @@ public class PlayerController {
     public void unregisterWifiListener(Context context) {
         if (context == null) return;
         try {
-            if(wifiReceiverSuccess) {
+            if (wifiReceiverSuccess) {
                 context.unregisterReceiver(wifiReceiver);
                 wifiReceiverSuccess = false;
             }
@@ -327,19 +327,19 @@ public class PlayerController {
                 /**不是用户拖动的，自动播放滑动的情况*/
                 return;
             } else {
-                if(getDuration() < 1) {
+                if (getDuration() < 1) {
                     videoController.setEnabled(false);
                     return;
-                }else {
+                } else {
                     videoController.setEnabled(true);
                 }
                 long duration = getDuration();
                 int position = (int) ((duration * progress * 1.0) / 1000);
                 newPosition = position;
                 String time = generateTime(position);
-//                Log.d(TAG, "onProgressChanged: time= " + time + ", progress= " + progress);
+                //                Log.d(TAG, "onProgressChanged: time= " + time + ", progress= " + progress);
                 if (maxPlaytime != -1 && maxPlaytime + 1000 < position) {
-//                    Log.d(TAG, "onProgressChanged: -------------");
+                    //                    Log.d(TAG, "onProgressChanged: -------------");
                     isMaxTime = true;
                     long pos = seekBarMaxProgress * maxPlaytime / duration;
                     seekBar.setProgress((int) pos);
@@ -354,7 +354,7 @@ public class PlayerController {
         /**开始拖动*/
         @Override
         public void onStartTrackingTouch(SeekBar seekBar) {
-            if(getDuration() < 1) {
+            if (getDuration() < 1) {
                 return;
             }
             isDragging = true;
@@ -367,14 +367,14 @@ public class PlayerController {
         /**停止拖动*/
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
-            if(getDuration() < 1) {
+            if (getDuration() < 1) {
                 return;
             }
             if (videoView != null) {
                 long duration = getDuration();
                 newPosition = (long) ((duration * seekBar.getProgress() * 1.0) / seekBarMaxProgress);
-//                videoView.seekTo((int) ((duration * seekBar.getProgress() * 1.0) / 1000));
-//                mHandler.removeMessages(MESSAGE_SHOW_PROGRESS);
+                //                videoView.seekTo((int) ((duration * seekBar.getProgress() * 1.0) / 1000));
+                //                mHandler.removeMessages(MESSAGE_SHOW_PROGRESS);
             }
             isDragging = false;
             if (!isMaxTime && newPosition >= 0) {
@@ -390,6 +390,7 @@ public class PlayerController {
 
     /**
      * 切换播放器
+     *
      * @param playerType
      * @return
      */
@@ -443,6 +444,7 @@ public class PlayerController {
         setPlayerRotation(mCurrentRotation);
         return this;
     }
+
     /**
      * 旋转指定角度
      *
@@ -511,7 +513,7 @@ public class PlayerController {
      */
     public PlayerController seekTo(int playtime) {
         if (videoView != null) {
-            if(getDuration() > 1) {
+            if (getDuration() > 1) {
                 videoView.seekTo(playtime);
             }
         }
@@ -623,7 +625,7 @@ public class PlayerController {
         mHandler.removeMessages(MESSAGE_SEEK_NEW_POSITION);
         if (videoView != null) {
             videoView.stopPlayback();
-//            videoView.release(true);
+            //            videoView.release(true);
             videoView.stopBackgroundPlay();
         }
         return this;
@@ -655,14 +657,14 @@ public class PlayerController {
         if (mActivity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {// 横屏
             Log.e(TAG, "onConfigurationChanged: " + "横屏");
             mActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);//全屏
-//            mActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            //            mActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             onConfigurationLandScape();
             isPortrait = false;
 
         } else if (mActivity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             Log.e(TAG, "onConfigurationChanged: " + "竖屏");
             mActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);//全屏
-//            mActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            //            mActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             onConfigurationPortrait();
             isPortrait = true;
         }
@@ -705,7 +707,7 @@ public class PlayerController {
             ViewGroup.LayoutParams params = videoParentLayout.getLayoutParams(); //取控件mRlVideoViewLayout当前的布局参数
             final int width = mActivity.getResources().getDisplayMetrics().widthPixels;
             final int heights = (int) (width / displayAspectRatio);
-//            final int heights = (int) (width * 0.5625);
+            //            final int heights = (int) (width * 0.5625);
             params.height = heights;// 强制设置控件的大小
             videoParentLayout.setLayoutParams(params); //使设置好的布局参数应用到控件
         } else {
@@ -735,10 +737,10 @@ public class PlayerController {
      * }
      */
     public boolean onBackPressed() {
-//        if (!isOnlyFullScreen && getScreenOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
+        //        if (!isOnlyFullScreen && getScreenOrientation() == ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
         if (!isOnlyFullScreen && mActivity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            if(onConfigurationChangedListener != null) {
+            if (onConfigurationChangedListener != null) {
                 onConfigurationChangedListener.onChanged(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             }
             return true;
@@ -780,6 +782,7 @@ public class PlayerController {
 
     private GestureListener mGestureListener;
     private boolean progressEnable = true, volumeEnable = true, brightnessEnable = true;
+
     public interface GestureListener {
         /**
          * 设置快进快退
@@ -883,7 +886,7 @@ public class PlayerController {
      * @return
      */
     public PlayerController setVideoController(SeekBar videoController) {
-        if(videoController == null) {
+        if (videoController == null) {
             return this;
         }
 
@@ -904,7 +907,7 @@ public class PlayerController {
     public PlayerController setVideoParentLayout(View rootLayout) {
         videoParentLayout = rootLayout;
         gestureDetector = new GestureDetector(mContext, new PlayerGestureListener());
-//        setVideoParentTouchEvent(true);
+        //        setVideoParentTouchEvent(true);
 
         orientationEventListener = new OrientationEventListener(mActivity) {
             @Override
@@ -925,7 +928,7 @@ public class PlayerController {
         };
         if (isOnlyFullScreen) {
             mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-            if(onConfigurationChangedListener != null) {
+            if (onConfigurationChangedListener != null) {
                 onConfigurationChangedListener.onChanged(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
             }
         }
@@ -1056,7 +1059,7 @@ public class PlayerController {
                 mAutoControlPanelRunnable.start(AutoControlPanelRunnable.AUTO_INTERVAL);
             }
         } else {
-//            mHandler.removeMessages(MESSAGE_SHOW_PROGRESS);
+            //            mHandler.removeMessages(MESSAGE_SHOW_PROGRESS);
             if (mAutoControlPanelRunnable != null) {
                 mAutoControlPanelRunnable.stop();
             }
@@ -1075,12 +1078,12 @@ public class PlayerController {
         tryFullScreen(isOnlyFullScreen);
         if (isOnlyFullScreen) {
             mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-            if(onConfigurationChangedListener != null) {
+            if (onConfigurationChangedListener != null) {
                 onConfigurationChangedListener.onChanged(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
             }
         } else {
             mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-            if(onConfigurationChangedListener != null) {
+            if (onConfigurationChangedListener != null) {
                 onConfigurationChangedListener.onChanged(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
             }
         }
@@ -1128,12 +1131,12 @@ public class PlayerController {
     public PlayerController toggleScreenOrientation() {
         if (mActivity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {// 横屏
             mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);// 竖屏
-            if(onConfigurationChangedListener != null) {
+            if (onConfigurationChangedListener != null) {
                 onConfigurationChangedListener.onChanged(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             }
         } else if (mActivity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {//竖屏
             mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-            if(onConfigurationChangedListener != null) {
+            if (onConfigurationChangedListener != null) {
                 onConfigurationChangedListener.onChanged(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
             }
         }
@@ -1159,8 +1162,8 @@ public class PlayerController {
      * 判断是否为本地数据源，包括 本地文件、Asset、raw
      */
     public boolean isLocalDataSource(Uri uri) {
-//        Uri uri = videoView.getUri();
-        if(uri != null) {
+        //        Uri uri = videoView.getUri();
+        if (uri != null) {
             String scheme = uri.getScheme();
             return ContentResolver.SCHEME_ANDROID_RESOURCE.equals(scheme)
                     || ContentResolver.SCHEME_FILE.equals(scheme)
@@ -1185,9 +1188,6 @@ public class PlayerController {
                 (rotation == Surface.ROTATION_90
                         || rotation == Surface.ROTATION_270) && width > height) {
             switch (rotation) {
-                case Surface.ROTATION_0:
-                    orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-                    break;
                 case Surface.ROTATION_90:
                     orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
                     break;
@@ -1199,6 +1199,7 @@ public class PlayerController {
                     orientation =
                             ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
                     break;
+                case Surface.ROTATION_0:
                 default:
                     orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
                     break;
@@ -1208,9 +1209,6 @@ public class PlayerController {
         // is square:
         else {
             switch (rotation) {
-                case Surface.ROTATION_0:
-                    orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-                    break;
                 case Surface.ROTATION_90:
                     orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
                     break;
@@ -1222,6 +1220,7 @@ public class PlayerController {
                     orientation =
                             ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
                     break;
+                case Surface.ROTATION_0:
                 default:
                     orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
                     break;
@@ -1237,29 +1236,30 @@ public class PlayerController {
             int percent = videoView.getBufferPercentage();
             videoController.setProgress((int) pos);
             videoController.setSecondaryProgress(percent);
-            if(syncProgressListener != null) {
+            if (syncProgressListener != null) {
                 syncProgressListener.syncProgress((int) pos, percent);
             }
-//            Log.d(TAG, "syncProgress: progress= " + pos + ", SecondaryProgress= " + percent);
-        }else{
+            //Log.d(TAG, "syncProgress: progress= " + pos + ", SecondaryProgress= " + percent);
+        } else {
             videoController.setProgress(0);
             videoController.setSecondaryProgress(0);
             videoController.setEnabled(false);
-            if(syncProgressListener != null) {
+            if (syncProgressListener != null) {
                 syncProgressListener.syncProgress(0, 0);
             }
         }
     }
 
     public void sendAutoHideBarsMsg(long delayMillis) {
-        if(mAutoControlPanelRunnable != null) {
+        if (mAutoControlPanelRunnable != null) {
             mAutoControlPanelRunnable.start(delayMillis);
         }
     }
 
     /**
      * 时长格式化显示
-     * @param time  毫秒级
+     *
+     * @param time 毫秒级
      * @return
      */
     public static String generateTime(long time) {
@@ -1267,11 +1267,13 @@ public class PlayerController {
         int seconds = totalSeconds % 60;
         int minutes = (totalSeconds / 60) % 60;
         int hours = totalSeconds / 3600;
-        return hours > 0 ? String.format("%02d:%02d:%02d", hours, minutes, seconds) : String.format("%02d:%02d", minutes, seconds);
+        return hours > 0 ? String.format("%02d:%02d:%02d", hours, minutes, seconds)
+                         : String.format("%02d:%02d", minutes, seconds);
     }
 
     /**
      * 下载速度格式化显示
+     *
      * @param bytes 毫秒级
      * @return
      */
@@ -1414,7 +1416,7 @@ public class PlayerController {
      */
     private void endGesture() {
         brightness = mActivity.getWindow().getAttributes().screenBrightness;
-        if(audioManager != null) {
+        if (audioManager != null) {
             volume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
         }
         if (newPosition >= 0) {
@@ -1599,7 +1601,7 @@ public class PlayerController {
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
             if (!isForbidTouch) {
-                if(videoView == null) {
+                if (videoView == null) {
                     return false;
                 }
                 int width = videoView.getWidth();
@@ -1630,12 +1632,12 @@ public class PlayerController {
                 } else {
                     float percent = deltaY / videoView.getHeight();
                     if (isVolume) {
-                        if(volumeEnable) {
+                        if (volumeEnable) {
                             /**声音设置*/
                             onVolumeSlide(percent);
                         }
                     } else {
-                        if(brightnessEnable) {
+                        if (brightnessEnable) {
                             /**亮度设置*/
                             onBrightnessSlide(percent);
                         }
