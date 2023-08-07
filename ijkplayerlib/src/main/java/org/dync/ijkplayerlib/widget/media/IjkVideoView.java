@@ -163,7 +163,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
         mAppContext = context.getApplicationContext();
         mSettings = new Settings(mAppContext);
 
-        initBackground();
+        initBackground(); // mSettings.enable_background_playing = false
         initRenders();
 
         mVideoWidth = 0;
@@ -341,6 +341,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                 IMediaDataSource dataSource = new FileMediaDataSource(new File(mUri.toString()));
                 mMediaPlayer.setDataSource(dataSource);
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+                // here
                 mMediaPlayer.setDataSource(mAppContext, mUri, mHeaders);
             } else {
                 mMediaPlayer.setDataSource(mUri.toString());
@@ -349,7 +350,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
             mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mMediaPlayer.setScreenOnWhilePlaying(true);
             mPrepareStartTime = System.currentTimeMillis();
-            mMediaPlayer.prepareAsync();
+            mMediaPlayer.prepareAsync(); // call native
 
             // REMOVED: mPendingSubtitleTracks
 
@@ -1057,14 +1058,14 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                     ijkMediaPlayer = new IjkMediaPlayer();
 
                     ijkMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                    if (mSettings.getUsingMediaCodec()) {
+                    if (mSettings.getUsingMediaCodec()) { // hardware codec, default true
                         ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "mediacodec", 1);
-                        if (mSettings.getUsingMediaCodecAutoRotate()) {
+                        if (mSettings.getUsingMediaCodecAutoRotate()) { // false
                             ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "mediacodec-auto-rotate", 1);
                         } else {
                             ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "mediacodec-auto-rotate", 0);
                         }
-                        if (mSettings.getMediaCodecHandleResolutionChange()) {
+                        if (mSettings.getMediaCodecHandleResolutionChange()) { // false
                             ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "mediacodec-handle-resolution-change", 1);
                         } else {
                             ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "mediacodec-handle-resolution-change", 0);
@@ -1073,14 +1074,14 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                         ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "mediacodec", 0);
                     }
                     //使用 OpenSLES 把文件从 java 层拷贝到 native 层
-                    if (mSettings.getUsingOpenSLES()) {
+                    if (mSettings.getUsingOpenSLES()) { // false
                         ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "opensles", 1);
                     } else {
                         ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "opensles", 0);
                     }
                     //视频格式
                     String pixelFormat = mSettings.getPixelFormat();
-                    if (TextUtils.isEmpty(pixelFormat)) {
+                    if (TextUtils.isEmpty(pixelFormat)) { // true
                         ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "overlay-format", IjkMediaPlayer.SDL_FCC_RV32);
                     } else {
                         ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "overlay-format", pixelFormat);
@@ -1404,18 +1405,18 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
      */
     public boolean hasVideoTrackInfo() {
         if (mMediaPlayer instanceof IjkMediaPlayer) {
-            IjkMediaPlayer mMediaPlayer = (IjkMediaPlayer) this.mMediaPlayer;
-            int videoTrack = mMediaPlayer.getSelectedTrack(ITrackInfo.MEDIA_TRACK_TYPE_VIDEO);
+            IjkMediaPlayer mediaPlayer = (IjkMediaPlayer) this.mMediaPlayer;
+            int videoTrack = mediaPlayer.getSelectedTrack(ITrackInfo.MEDIA_TRACK_TYPE_VIDEO);
             return videoTrack != -1;
         }
         /*
         else if (mMediaPlayer instanceof IjkExoMediaPlayer) {
-            IjkExoMediaPlayer mMediaPlayer = (IjkExoMediaPlayer) this.mMediaPlayer;
-            ArrayList<Integer> trackGroup = mMediaPlayer.getTrackGroup();
+            IjkExoMediaPlayer mediaPlayer = (IjkExoMediaPlayer) this.mMediaPlayer;
+            ArrayList<Integer> trackGroup = mediaPlayer.getTrackGroup();
             return trackGroup.contains(C.TRACK_TYPE_VIDEO);
         } else if (mMediaPlayer instanceof AndroidMediaPlayer) {
-            AndroidMediaPlayer mMediaPlayer = (AndroidMediaPlayer) this.mMediaPlayer;
-            ITrackInfo[] trackInfo = mMediaPlayer.getTrackInfo();
+            AndroidMediaPlayer mediaPlayer = (AndroidMediaPlayer) this.mMediaPlayer;
+            ITrackInfo[] trackInfo = mediaPlayer.getTrackInfo();
             boolean hasVideo = false;
             for (int i = 0; i < trackInfo.length; i++) {
                 if (trackInfo[i].getTrackType() == ITrackInfo.MEDIA_TRACK_TYPE_VIDEO) {
@@ -1440,9 +1441,9 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
          * 这里一般可以获取{@link IjkMediaPlayer#getVideoCachedDuration()}、{@link IjkMediaPlayer#getAudioCachedDuration()}、{@link IjkMediaPlayer#getTcpSpeed()}</br>
          * 具体可看IjkMediaPlayer
          *
-         * @param mMediaPlayer
+         * @param mediaPlayer
          */
-        void updateVideoInfo(IMediaPlayer mMediaPlayer);
+        void updateVideoInfo(IMediaPlayer mediaPlayer);
     }
 
     private VideoInfoListener videoInfoListener;

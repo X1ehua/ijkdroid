@@ -58,7 +58,7 @@ publishing {
 
             // Self-explanatory metadata for the most part
             pom {
-//                packaging 'aar'
+                //packaging 'aar'
                 name = PUBLISH_ARTIFACT_ID
                 description = '你的项目描述'
                 // If your project has a dedicated site, use its URL here
@@ -72,7 +72,7 @@ publishing {
                 }
                 developers {
                     developer {
-//                        id = '用户ID'
+                        //id = '用户ID'
                         name = 'Kathline'
                         email = '1350624667@qq.com'
                     }

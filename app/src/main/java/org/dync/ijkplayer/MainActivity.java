@@ -76,9 +76,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btn_setting:
                 startActivity(new Intent(mContext, SettingActivity.class));
                 break;
-            case R.id.btn_ijkPlayer:
+            case R.id.btn_ijkPlayer: // TODO: WHY label not ijkPlayer but IJKPLAYER ?
                 String videoPath = "http://mozicode.com/20230729-133932.mp4";
-                VideoActivity.intentTo(mContext, videoPath, "测试");
+                VideoActivity.intentTo(mContext, videoPath, "Default Video");
                 break;
             //case R.id.btn_exoPlayer:
             //  startActivity(new Intent(mContext, SimpleActivity.class));
