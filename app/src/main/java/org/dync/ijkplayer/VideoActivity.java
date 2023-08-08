@@ -200,7 +200,7 @@ public class VideoActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_video);
+        setContentView(R.layout.activity_video); // >> IjkVideoView.IjkVideoView(context, attrs)
         ButterKnife.bind(this);
 
         mContext = this;
