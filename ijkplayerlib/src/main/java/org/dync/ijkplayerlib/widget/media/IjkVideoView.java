@@ -185,6 +185,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                                              FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM);
         addView(subtitleDisplay, layoutParams_txt);
         setVideoRadius(0.0f); // no impact
+        Log.w(TAG, "initVideoView() in IjkVideView");
     }
 
     public void setRenderView(IRenderView renderView) {

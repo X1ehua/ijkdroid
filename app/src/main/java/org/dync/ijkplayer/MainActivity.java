@@ -77,7 +77,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(mContext, SettingActivity.class));
                 break;
             case R.id.btn_ijkPlayer: // TODO: WHY label not ijkPlayer but IJKPLAYER ?
-                String videoPath = "http://mozicode.com/20230729-133932.mp4";
+                //String videoPath = "http://mozicode.com/20230729-133932.mp4";
+                final String videoPath = "rtmp://mozicode.com:2023/live/home";
                 VideoActivity.intentTo(mContext, videoPath, "Default Video");
                 break;
             //case R.id.btn_exoPlayer:

@@ -69,7 +69,7 @@ public class PlayerController {
     /**
      * 原生的Ijkplayer
      */
-    private IjkVideoView videoView;
+    private IjkVideoView mVideoView;
 
     private SeekBar videoController;
 
@@ -144,12 +144,12 @@ public class PlayerController {
         public void onReceive(Context context, Intent intent) {
             if (ConnectivityManager.CONNECTIVITY_ACTION.equals(intent.getAction())) {
                 boolean isWifi = isWifiConnected(context);
-                if (!isWifi && !WIFI_TIP_DIALOG_SHOWED && videoView.isPlaying()) {
+                if (!isWifi && !WIFI_TIP_DIALOG_SHOWED && mVideoView.isPlaying()) {
                     if (playStateListener != null) {
                         playStateListener.playState(IjkVideoView.STATE_PLAYING);
                     }
                     if (!Utils.isWifiConnected(mActivity) && !WIFI_TIP_DIALOG_SHOWED) {
-                        videoView.clickStart();
+                        mVideoView.clickStart();
                         if (onNetWorkListener != null) {
                             onNetWorkListener.onChanged();
                         }
@@ -172,10 +172,10 @@ public class PlayerController {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 WIFI_TIP_DIALOG_SHOWED = true;
-                if (videoView.getCurrentState() == IjkVideoView.STATE_PAUSED) {
-                    videoView.start();
+                if (mVideoView.getCurrentState() == IjkVideoView.STATE_PAUSED) {
+                    mVideoView.start();
                 } else {
-                    videoView.clickStart();
+                    mVideoView.clickStart();
                 }
                 if (onNetWorkListener != null) {
                     onNetWorkListener.onChanged();
@@ -186,7 +186,7 @@ public class PlayerController {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                videoView.release(true);
+                mVideoView.release(true);
                 if (onNetWorkListener != null) {
                     onNetWorkListener.onChanged();
                 }
@@ -196,7 +196,7 @@ public class PlayerController {
             @Override
             public void onCancel(DialogInterface dialog) {
                 dialog.dismiss();
-                videoView.release(true);
+                mVideoView.release(true);
                 if (onNetWorkListener != null) {
                     onNetWorkListener.onChanged();
                 }
@@ -286,8 +286,8 @@ public class PlayerController {
                     break;
                 /**滑动完成，设置播放进度*/
                 case MESSAGE_SEEK_NEW_POSITION:
-                    if (videoView != null && newPosition >= 0) {
-                        videoView.seekTo((int) newPosition);
+                    if (mVideoView != null && newPosition >= 0) {
+                        mVideoView.seekTo((int) newPosition);
                         newPosition = -1;
                     }
                     break;
@@ -370,10 +370,10 @@ public class PlayerController {
             if (getDuration() < 1) {
                 return;
             }
-            if (videoView != null) {
+            if (mVideoView != null) {
                 long duration = getDuration();
                 newPosition = (long) ((duration * seekBar.getProgress() * 1.0) / seekBarMaxProgress);
-                //                videoView.seekTo((int) ((duration * seekBar.getProgress() * 1.0) / 1000));
+                //                mVideoView.seekTo((int) ((duration * seekBar.getProgress() * 1.0) / 1000));
                 //                mHandler.removeMessages(MESSAGE_SHOW_PROGRESS);
             }
             isDragging = false;
@@ -395,16 +395,24 @@ public class PlayerController {
      * @return
      */
     public PlayerController switchPlayer(int playerType) {
-        videoView.switchPlayer(playerType);
+        mVideoView.switchPlayer(playerType);
         return this;
+    }
+
+    public void startRecord() {
+        mVideoView.getMediaPlayer().startRecord();
+    }
+
+    public void stopRecord() {
+        mVideoView.getMediaPlayer().stopRecord();
     }
 
     /**
      * 百分比显示切换
      */
     public PlayerController toggleAspectRatio() {
-        if (videoView != null) {
-            videoView.toggleAspectRatio();
+        if (mVideoView != null) {
+            mVideoView.toggleAspectRatio();
         }
         return this;
     }
@@ -418,8 +426,8 @@ public class PlayerController {
      */
     public PlayerController setVideoRatio(int showType) {
         currentShowType = showType;
-        if (videoView != null) {
-            videoView.setAspectRatio(currentShowType);
+        if (mVideoView != null) {
+            mVideoView.setAspectRatio(currentShowType);
         }
         return this;
     }
@@ -453,8 +461,8 @@ public class PlayerController {
      */
     public PlayerController setPlayerRotation(int rotation) {
 
-        if (videoView != null) {
-            videoView.setPlayerRotation(rotation);
+        if (mVideoView != null) {
+            mVideoView.setPlayerRotation(rotation);
         }
         return this;
     }
@@ -502,8 +510,8 @@ public class PlayerController {
      * </code>
      */
     public PlayerController setSpeed(@FloatRange(from = 0.2, to = 2.0) float rate) {
-        if (videoView != null) {
-            videoView.setSpeed(rate);
+        if (mVideoView != null) {
+            mVideoView.setSpeed(rate);
         }
         return this;
     }
@@ -512,9 +520,9 @@ public class PlayerController {
      * 设置播放位置
      */
     public PlayerController seekTo(int playtime) {
-        if (videoView != null) {
+        if (mVideoView != null) {
             if (getDuration() > 1) {
-                videoView.seekTo(playtime);
+                mVideoView.seekTo(playtime);
             }
         }
         return this;
@@ -524,8 +532,8 @@ public class PlayerController {
      * 获取当前播放位置
      */
     public int getCurrentPosition() {
-        if (videoView != null) {
-            currentPosition = videoView.getCurrentPosition();
+        if (mVideoView != null) {
+            currentPosition = mVideoView.getCurrentPosition();
         } else {
             /**直播*/
             currentPosition = -1;
@@ -537,8 +545,8 @@ public class PlayerController {
      * 获取视频播放总时长
      */
     public long getDuration() {
-        if (videoView != null) {
-            duration = videoView.getDuration();//exoplayer如果是直播流返回1
+        if (mVideoView != null) {
+            duration = mVideoView.getDuration();//exoplayer如果是直播流返回1
             return duration;
         } else {
             return 0;
@@ -603,10 +611,10 @@ public class PlayerController {
      * }
      */
     public PlayerController onPause() {
-        if (videoView != null) {
-            bgState = (videoView.isPlaying() ? 0 : 1);
+        if (mVideoView != null) {
+            bgState = (mVideoView.isPlaying() ? 0 : 1);
             getCurrentPosition();
-            videoView.pause();
+            mVideoView.pause();
         }
         return this;
     }
@@ -623,10 +631,10 @@ public class PlayerController {
         unregisterWifiListener(mContext);
         orientationEventListener.disable();
         mHandler.removeMessages(MESSAGE_SEEK_NEW_POSITION);
-        if (videoView != null) {
-            videoView.stopPlayback();
-            //            videoView.release(true);
-            videoView.stopBackgroundPlay();
+        if (mVideoView != null) {
+            mVideoView.stopPlayback();
+            //            mVideoView.release(true);
+            mVideoView.stopBackgroundPlay();
         }
         return this;
     }
@@ -763,20 +771,20 @@ public class PlayerController {
     /**
      * 新的调用方法，适用非Activity中使用PlayerView，例如fragment、holder中使用
      */
-    public PlayerController(Activity activity, IjkVideoView videoView) {
+    public PlayerController(Activity activity, IjkVideoView mVideoView) {
         this.mActivity = activity;
         this.mContext = activity;
-        this.videoView = videoView;
+        this.mVideoView = mVideoView;
     }
 
     /**
      * 设置IjkVideoView
      *
-     * @param videoView
+     * @param mVideoView
      * @return
      */
-    public PlayerController setIjkVideoView(IjkVideoView videoView) {
-        this.videoView = videoView;
+    public PlayerController setIjkVideoView(IjkVideoView mVideoView) {
+        this.mVideoView = mVideoView;
         return this;
     }
 
@@ -1162,7 +1170,7 @@ public class PlayerController {
      * 判断是否为本地数据源，包括 本地文件、Asset、raw
      */
     public boolean isLocalDataSource(Uri uri) {
-        //        Uri uri = videoView.getUri();
+        //        Uri uri = mVideoView.getUri();
         if (uri != null) {
             String scheme = uri.getScheme();
             return ContentResolver.SCHEME_ANDROID_RESOURCE.equals(scheme)
@@ -1233,7 +1241,7 @@ public class PlayerController {
     public void updateProgress(long position, long duration) {
         if (duration > 0) {
             long pos = seekBarMaxProgress * position / duration;
-            int percent = videoView.getBufferPercentage();
+            int percent = mVideoView.getBufferPercentage();
             videoController.setProgress((int) pos);
             videoController.setSecondaryProgress(percent);
             if (syncProgressListener != null) {
@@ -1324,7 +1332,7 @@ public class PlayerController {
      * 界面方向改变是刷新界面
      */
     private void doOnConfigurationChanged(final boolean portrait) {
-        if (videoView != null && !isOnlyFullScreen) {
+        if (mVideoView != null && !isOnlyFullScreen) {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -1440,11 +1448,11 @@ public class PlayerController {
         if (isDragging) {
             return 0;
         }
-        if (videoView == null) {
+        if (mVideoView == null) {
             return 0;
         }
-        long position = videoView.getCurrentPosition();
-        long duration = videoView.getDuration();
+        long position = mVideoView.getCurrentPosition();
+        long duration = mVideoView.getDuration();
         if (videoController != null) {
             updateProgress(position, duration);
         }
@@ -1514,8 +1522,8 @@ public class PlayerController {
      * @param percent
      */
     private void onProgressSlide(float percent) {
-        int position = videoView.getCurrentPosition();
-        int duration = videoView.getDuration();
+        int position = mVideoView.getCurrentPosition();
+        int duration = mVideoView.getDuration();
         long deltaMin = Math.min(100 * 1000, duration - position);
         long delta = (long) (deltaMin * percent);
         newPosition = delta + position;
@@ -1601,13 +1609,13 @@ public class PlayerController {
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
             if (!isForbidTouch) {
-                if (videoView == null) {
+                if (mVideoView == null) {
                     return false;
                 }
-                int width = videoView.getWidth();
-                int top = videoView.getTop();
-                int left = videoView.getLeft();
-                int bottom = videoView.getBottom();
+                int width = mVideoView.getWidth();
+                int top = mVideoView.getTop();
+                int left = mVideoView.getLeft();
+                int bottom = mVideoView.getBottom();
 
                 if (e2.getY() <= top || e2.getY() >= bottom) {
                     return false;
@@ -1627,10 +1635,10 @@ public class PlayerController {
                 if (isLandscape) {
                     /**进度设置*/
                     if (progressEnable && getDuration() > 1) {
-                        onProgressSlide(-deltaX / videoView.getWidth());
+                        onProgressSlide(-deltaX / mVideoView.getWidth());
                     }
                 } else {
-                    float percent = deltaY / videoView.getHeight();
+                    float percent = deltaY / mVideoView.getHeight();
                     if (isVolume) {
                         if (volumeEnable) {
                             /**声音设置*/
