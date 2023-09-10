@@ -67,11 +67,11 @@ public class SampleMediaListFragment extends Fragment {
             }
         });
 
-        final String url1 = "rtmp://ns8.indexforce.com/home/mystream";
-        final String url2 = "rtmp://mozicode.com:2023/live/home";
-        mAdapter.addItem(url1, "CCLive");
+        final String url2 = "rtmp://ns8.indexforce.com/home/mystream";
+        final String url1 = "rtmp://mozicode.com:2023/live/home";
+        //mAdapter.addItem(url1, "CCLive");
         mAdapter.addItem(url2, "CCLive");
-        mAdapter.addItem("http://mozicode.com/20230729-133932.mp4", "双打0721-1");
+        //mAdapter.addItem("http://mozicode.com/20230729-133932.mp4", "双打0721-1");
     }
 
     interface OnItemClickListener {

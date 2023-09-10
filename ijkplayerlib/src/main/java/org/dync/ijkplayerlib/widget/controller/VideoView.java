@@ -36,7 +36,7 @@ import org.dync.ijkplayerlib.widget.media.IjkVideoView;
 import org.dync.ijkplayerlib.widget.util.PlayerController;
 import org.dync.ijkplayerlib.widget.util.Utils;
 
-import tv.danmaku.ijk.media.exo.IjkExoMediaPlayer;
+//import tv.danmaku.ijk.media.exo.IjkExoMediaPlayer;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
@@ -670,7 +670,9 @@ public class VideoView extends RelativeLayout {
                 String formatSize = formatedSpeed(tcpSpeeds);
                 tvSpeed.setText(formatSize);
             }
-        } else if (mMediaPlayer != null && mMediaPlayer instanceof IjkExoMediaPlayer) {
+        }
+        /*
+        else if (mMediaPlayer != null && mMediaPlayer instanceof IjkExoMediaPlayer) {
             IjkExoMediaPlayer mp = (IjkExoMediaPlayer) mMediaPlayer;
 
             long tcpSpeeds = mp.getTotalRxBytes(mActivity);
@@ -679,6 +681,7 @@ public class VideoView extends RelativeLayout {
                 tvSpeed.setText(formatSize);
             }
         }
+        */
     }
 
     /**

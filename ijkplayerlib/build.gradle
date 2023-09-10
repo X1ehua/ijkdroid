@@ -26,6 +26,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    //ndkVersion '/Users/eric/Library/android-ndk-r14b'
 }
 
 dependencies {
@@ -42,7 +43,7 @@ dependencies {
     */
 
     //第二种
-    api 'com.github.dynckathline:ijkplayer-exo2:1.0'
+    //api 'com.github.dynckathline:ijkplayer-exo2:1.0'
     /*
     api (project(':ijkplayer-exo2'))
     api ('com.github.dynckathline:ijkplayer-exo2:1.0') {

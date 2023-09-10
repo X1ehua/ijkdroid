@@ -60,7 +60,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import tv.danmaku.ijk.media.exo.IjkExoMediaPlayer;
+//import tv.danmaku.ijk.media.exo.IjkExoMediaPlayer;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
@@ -889,7 +889,9 @@ public class VideoActivity extends BaseActivity {
                 String formatSize = formatedSpeed(tcpSpeeds);
                 appVideoSpeed.setText(formatSize);
             }
-        } else if (mMediaPlayer != null && mMediaPlayer instanceof IjkExoMediaPlayer) {
+        }
+        /*
+        else if (mMediaPlayer != null && mMediaPlayer instanceof IjkExoMediaPlayer) {
             IjkExoMediaPlayer mp = (IjkExoMediaPlayer) mMediaPlayer;
 
             long tcpSpeeds = mp.getTotalRxBytes(mActivity);
@@ -899,6 +901,7 @@ public class VideoActivity extends BaseActivity {
                 appVideoSpeed.setText(formatSize);
             }
         }
+        */
     }
 
     /**
