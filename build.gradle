@@ -30,13 +30,25 @@ allprojects {
 
 ext {
     compileSdkVersion = 28
-//  buildToolsVersion = "27.0.3"
+    buildToolsVersion = "28.0.3"
 
     targetSdkVersion = 28
     supportLibraryVersion = "1.1.0"
 
     versionCode = 1
     versionName = "1.0"
-    ijkplayer = "0.8.8.2" // mavenLocal
+//  ijkplayer = "0.8.8.13" // 改为本地引入
     exoplayer = "2.14.1"
 }
+
+/*
+ext {
+    compileSdkVersion = 28
+    buildToolsVersion = "30.0.3"
+
+    targetSdkVersion = 28
+
+    versionCode = VERSION_CODE
+    versionName = VERSION_NAME
+}
+*/

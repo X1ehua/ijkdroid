@@ -1,2 +1,3 @@
 //include ':app', ':ijkplayerlib', ':ijkplayer-exo2'
 include ':app', ':ijkplayerlib'
+include ':ijkplayer:android:ijkplayer:ijkplayer-java'

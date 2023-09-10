@@ -14,8 +14,26 @@ android {
             //abiFilters "armeabi-v7a"
             abiFilters "arm64-v8a"
         }
+        externalNativeBuild {
+            ndkBuild {
+                arguments "NDK_APPLICATION_MK:=/Users/eric/ijklib/android/ijkplayer/ijkplayer-arm64/src/main/jni/Application.mk"
+                abiFilters "arm64-v8a"
+            }
+        }
+    }
+    externalNativeBuild {
+        ndkBuild {
+            path '/Users/eric/ijklib/android/ijkplayer/ijkplayer-arm64/src/main/jni/Android.mk'
+        }
     }
     buildTypes {
+        debug {
+            debuggable true
+            jniDebuggable true
+            ndk {
+                debuggable true
+            }
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -31,10 +49,12 @@ android {
         javaMaxHeapSize "4g"//越大越好
         //incremental true
     }
+    //ndkVersion '/Users/eric/Library/android-ndk-r14b'
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(path: ':ijkplayer:android:ijkplayer:ijkplayer-java')
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'

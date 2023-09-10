@@ -44,7 +44,7 @@ import androidx.annotation.FloatRange;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
-import com.google.android.exoplayer2.C;
+//import com.google.android.exoplayer2.C;
 
 import org.dync.ijkplayerlib.R;
 import org.dync.ijkplayerlib.widget.controller.ScaleTextureView;

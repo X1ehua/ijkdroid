@@ -55,7 +55,11 @@ dependencies {
     api 'com.google.android.exoplayer:exoplayer:' + rootProject.exoplayer
     api 'com.google.android.exoplayer:extension-rtmp:' + rootProject.exoplayer
 
-    api 'tv.danmaku.ijk.media:ijkplayer-java:' + rootProject.ijkplayer // 0.8.8.2
+//  api 'tv.danmaku.ijk.media:ijkplayer-java:' + rootProject.ijkplayer // 0.8.8.2
+    // 改为 project 本地引用的方式:
+//  implementation project(":ijkplayer:android:ijkplayer:ijkplayer-arm64")
+    implementation project(":ijkplayer:android:ijkplayer:ijkplayer-java")
+
 //  api 'tv.danmaku.ijk.media:ijkplayer-exo:0.8.8'
 
 //  api 'tv.danmaku.ijk.media:ijkplayer-armv7a:' + rootProject.ijkplayer
